@@ -1,0 +1,52 @@
+{%extends "base.html"%} {%block header%}
+
+<div class="jumbotron jumbotron-fluid shadow">
+
+    <div class="container row">
+        <div class="col-6">
+            <h2>Edit account</h2>
+            <form action="{{url_for('edit')}}" method="POST">
+                <div class="form-group">
+                    {{ form.hidden_tag() }} {% for field in form if field.widget.input_type != 'hidden' and field.name!='password' %}
+
+                    <p>
+                        {{ field.label }} {{ field(class_="form-control") }} {% for error in field.errors %} {{ error }} {% endfor %}
+                    </p>
+
+                    {% endfor %}
+                    <p>
+                        Enter password to confirm {{form.password(class_="form-control")}}
+                    </p>
+                    <button class="btn btn-success" type="submit">Edit Profile</button>
+                    <a href="/users/{{current_user.id}}">Cancel</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                Delete account
+              </button>
+            <a href="{{url_for('change_password')}}">Change password</a></div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your account?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="{{url_for('delete_user')}}" method="POST"><button type="submit" class="btn btn-danger">Delete account</button></form>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,63 @@
+{%extends "base.html"%} {%block header%}
+
+
+<div class="jumbotron jumbotron-fluid shadow">
+    <div class="container row">
+        <div class="col-6">
+            <h1 class="display-4">{{event.title}}
+
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div id="details" class="container">
+    <div class="row">
+        <div class="col-md-6 event-cards">
+            <div class="card mb-2">
+                <img src="{{func(event)}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{event.title}}</h5>
+                    <h6>{{date_time}}</h6>
+                    {%if event.description%}
+                    <div class="card-text rounded p-2">{{event.description|safe}}</div>
+                    {%endif%}
+                    <a href="{{event.url}}" target="_blank" class="btn btn-primary mt-2">View event details on Eventful</a> {%if current_user.is_active%}
+                    <button id="{{event.id}}" {%if event.id in saved%}class="btn btn-primary mt-2">Saved</button> {%else%}class="btn btn-outline-primary mt-2" >Save event</button> {%endif%}{%endif%}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-2" id="venue-card" data-lat="{{venue.latitude}}" data-long="{{venue.longitude}}">
+                <img src="{{func(venue)}}" class="card-img-top" alt="... ">
+                <div class="card-body ">
+                    <h5 id="venue-name" class="card-title ">{{venue.name}}</h5>
+                    <h6 id='address'>{{venue.address}}</h6>
+                    <h6 id='city-state'>{{venue.city}}, {{venue.region}}</h6>
+                    {%if venue.description %}
+                    <div class="card-text p-2 rounded ">{{venue.description|safe}}</div>
+                    {%endif%}
+                    <a id="venue-link" href="{{venue.url}}" target="_blank" class="btn btn-primary mt-2">View venue details on Eventful</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <div class="my-4 rounded" id="map"></div>
+</div>
+<div class="container">
+    <div class="bg-light rounded shadow">
+        <h2>Parking</h2>
+        <ul class="row" id="parking-results">
+
+        </ul>
+    </div>
+
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwUHj3yRGG7xsf0RbKElZs-AHkIXZaNBY&callback=initMap&libraries=places " defer></script>
+
+
+{%endblock%}

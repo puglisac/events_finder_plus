@@ -1,0 +1,36 @@
+{%extends "base.html"%} {%block header%}
+
+
+<div id="carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="static/img/concert-crowd-crop.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="static/img/conference_crop.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="static/img/stage.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-4 row justify-content-center">
+    <div id="welcome-card col-8" class="card text-center">
+        <div class="card-header bg-dark text-white">
+            Welcome to Events Finder Plus
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">To get started finding an event use the search field above.</h5>
+            <p class="">Or refine your search using the
+                <a href="{{url_for('advanced_search')}}" class="">advanced search</a> </p>
+            {%if current_user.is_anonymous%}
+            <p class="">To save events and get event recommendations in your area:</p>
+            <a href="{{url_for('signup')}}" class="btn btn-primary">Sign-up</a> {%endif%}
+        </div>
+        <div class="card-footer text-muted bg-dark">
+        </div>
+    </div>
+</div>
+
+{%endblock%}

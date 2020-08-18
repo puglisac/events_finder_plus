@@ -1,0 +1,30 @@
+{%extends "base.html"%} {%block header%}
+
+
+<div class="jumbotron jumbotron-fluid shadow">
+    <div class="container row">
+        <div class="col-6">
+            <h1 class="display-4">{{results}} results for:
+                <div id="keyword">{{key}}</div>
+            </h1>
+        </div>
+    </div>
+</div>
+
+{%include 'cards.html'%}
+<div class="container">
+    <nav>
+        <ul id="page-select" class="pagination">
+            <li class="page-item {%if session.curr_page==1%}disabled{%endif%}">
+                <a href="/search_results?page={{session.curr_page-1}}" class="page-link">Previous</a>
+            </li>
+            {%for page in pages%} {%if page>0 and page
+            <=size%} <li class="page-item {%if session.curr_page == page%} active{%endif%}"><a class="page-link " href="/search_results?page={{page}}">{{page}}</a></li>
+                {%endif%} {%endfor%}
+                <li class="page-item {%if session.curr_page==size%}disabled{%endif%}">
+                    <a class="page-link " href="/search_results?page={{session.curr_page+1}}">Next</a>
+                </li>
+        </ul>
+    </nav>
+</div>
+{%endblock%}

@@ -1,0 +1,25 @@
+{%extends "base.html"%} {%block header%}
+
+
+<div class="jumbotron jumbotron-fluid shadow">
+    <div class="container row">
+        <div class="col-6">
+            <h1 class="display-4">
+                {{u.first_name}} {{u.last_name}}
+            </h1>
+            <p>Email: {{u.email}}</p>
+            <p>Location: {{u.location}}</p>
+        </div>
+    </div>
+</div>
+
+<div id="saved-events" class="container bg-dark text-light rounded shadow mb-2">
+    <div class="row">
+        <h2 class="col">Saved events </h2>
+    </div>
+</div>
+{%if not events%}
+<div class="container bg-light">
+    <p class="text-center rounded">You have no saved events.</p>
+</div>
+{%else%} {%include 'saved_events.html'%} {%endif%} {%endblock%}

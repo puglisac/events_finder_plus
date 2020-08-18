@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Event Finder Plus</title>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Events Finder Plus</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item ">
+                    <a id="home_page" class="nav-link" href="{{url_for('home_page')}}">Home</a>
+                </li>
+                <a id="advanced_search" class="nav-link " href="{{url_for('advanced_search')}}">Advanced Search</a>
+                </li>
+                {%if current_user.is_anonymous%}
+                <li class="nav-item ">
+                    <a id="signup" class="nav-link" href="{{url_for('signup')}}">Sign-up</a>
+                </li>
+                {%endif%} {%if current_user.is_active%}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{current_user.email}}
+                    </a>
+                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item text-muted" href="/users/{{current_user.id}}">Dashboard</a>
+                        <a class="dropdown-item text-muted" href="/users/{{current_user.id}}/saved">Saved events</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-muted" href="{{url_for('edit')}}">Edit profile</a>
+                        <form action="{{url_for('logout')}}" method="POST">
+                            <button class="btn w-100 btn-danger"> Logout
+                        </button>
+                        </form>
+                    </div>
+                </li>
+                {%endif%}
+            </ul>
+            <form id="keyword-search" action="{{url_for('keyword_search_results')}}" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Quick Search" aria-label="Search" required>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            {%if current_user.is_anonymous%}
+            <div class="nav-item row">
+                <div class="container col">
+                    <button type="button" class="btn ml-4 btn-secondary col" data-toggle="modal" data-target="#exampleModal">
+                    Sign-in
+                  </button>
+                </div>
+            </div>
+            {%endif%}
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+    <div class=flashes>
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} ">{{ message }}</li>
+            {% endfor %}
+        </div>
+
+
+
+
+
+        {% endif %} {% endwith %} {%block header%}{%endblock%} {%block content%}{%endblock%}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sign-in</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="login-form" action="{{url_for('login')}}" method="POST">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" form="login-form" value=Login></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <footer class="footer bg-dark ">
+            <div class="float-right container eventful-badge eventful-medium">
+                <img src="http://api.eventful.com/images/powered/eventful_88x31.gif" alt="Local Events, Concerts, Tickets">
+                <p><a href="http://eventful.com/">Events</a> by Eventful</p>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/axios/dist/axios.js"></script>
+        <script src="https://kit.fontawesome.com/e88ad50eef.js" crossorigin="anonymous"></script>
+        <script src="/static/app.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#{{request.endpoint}}").addClass("active");
+            })
+        </script>
+
+</body>
+
+</html>

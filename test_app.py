@@ -61,6 +61,14 @@ class RoutesTest(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertIn("Nashville", html)
 
+    def test_advanced_search(self):
+        with app.test_client() as client:
+
+            resp = client.post('/advanced_search', data={"keyword": "music", "location": "New York"})
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("New York", html)
+
     def test_login(self):
         with app.test_client() as client:
 

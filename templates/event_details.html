@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-12">
                         {%if event.description%}
-                        <div class="card-text rounded p-2">{{event.description|safe}}</div>
+                        <div class="card-text rounded p-2 mt-2">{{event.description|safe}}</div>
                         {%endif%}
                         <a href="{{event.url}}" target="_blank" class="btn btn-primary mt-2">View event details on Eventful</a> {%if current_user.is_active%}
                         <button id="{{event.id}}" {%if event.id in saved%}class="btn btn-primary mt-2">Saved</button> {%else%}class="btn btn-outline-primary mt-2" >Save event</button> {%endif%}{%endif%}
@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-12">
                         {%if venue.description %}
-                        <div class="card-text p-2 rounded ">{{venue.description|safe}}</div>
+                        <div class="card-text p-2 rounded mt-2">{{venue.description|safe}}</div>
                         {%endif%}
                         <a id="venue-link" href="{{venue.url}}" target="_blank" class="btn btn-primary mt-2">View venue details on Eventful</a>
 

@@ -150,6 +150,8 @@ def event_details(evt_id):
     date_time = get_date_time(e.json()["start_time"])
     if current_user.is_active:
         saved = get_saved(current_user.id)
+    else:
+        saved = None
     return render_template("event_details.html", event=e.json(), date_time=date_time, venue=v.json(), func=image_error, saved=saved, key=google_key)
 ####################user routes#########################
 

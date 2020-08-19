@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Event
-from secrets import event_key, event_url
+from secrets import event_key, event_url, google_key
 import requests
 from werkzeug.exceptions import BadRequestKeyError
 from forms import AdvancedSearchForm, LogInForm, SignUpForm, EditUserForm, NewPasswordForm, FilterCategoryForm
@@ -150,7 +150,7 @@ def event_details(evt_id):
     date_time = get_date_time(e.json()["start_time"])
     if current_user.is_active:
         saved = get_saved(current_user.id)
-    return render_template("event_details.html", event=e.json(), date_time=date_time, venue=v.json(), func=image_error, saved=saved)
+    return render_template("event_details.html", event=e.json(), date_time=date_time, venue=v.json(), func=image_error, saved=saved, key=google_key)
 ####################user routes#########################
 
 

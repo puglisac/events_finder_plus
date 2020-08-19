@@ -1,4 +1,4 @@
-
+Events Finder Plus: https://eventsfinderplus.herokuapp.com/
 
 Events Finder Plus is an event search app.  Users can perform a quick search or an advanced search that will filter by location, date, or category.  Selecting an event returns the event info, venue details, as well as parking options around the venue.
 
@@ -22,7 +22,8 @@ Database:
 APIs used:  
 
 - Eventful API  
-- MAPS Javscript API
+- Google MAPS Javscript API
+- Google Places API
 
 
 

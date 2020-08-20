@@ -3,6 +3,7 @@ from secrets import event_key, event_url
 from datetime import datetime
 from models import User
 
+
 def get_categories():
     """returns a list of categories for event search"""
     r = requests.post(
@@ -41,28 +42,30 @@ def image_error(obj):
     except:
         return "/static/img/card-crop.jpg"
 
+
 def get_saved(id):
     """returns ids of user-saved events"""
-    u=User.query.get(id)
+    u = User.query.get(id)
     return [event.id for event in u.events]
-    
+
 
 def sort_events_by_date(list):
     """sorts a list of events by date-time"""
     sortedList = sorted(
-    list,
-    key=lambda x: datetime.strptime(x['start_time'], '%Y-%m-%d %H:%M:%S'), reverse=True
+        list,
+        key=lambda x: datetime.strptime(x['start_time'], '%Y-%m-%d %H:%M:%S')
     )
     return sortedList
 
+
 def get_saved_events(id):
     """returns a list of user-saved events"""
-    u=User.query.get(id)
-    e_ids=[event.id for event in u.events]
-    events=[]
+    u = User.query.get(id)
+    e_ids = [event.id for event in u.events]
+    events = []
     for e_id in e_ids:
-        e=requests.post(f"{event_url}events/get",
-                      data={"app_key": event_key, "id": e_id})
+        e = requests.post(f"{event_url}events/get",
+                          data={"app_key": event_key, "id": e_id})
         events.append(e.json())
-    sorted_events=sort_events_by_date(events)
+    sorted_events = sort_events_by_date(events)
     return sorted_events

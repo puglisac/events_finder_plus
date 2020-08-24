@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, render_template, redirect, flash, session, url_for, session
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user

@@ -332,6 +332,9 @@ def remove_event():
 @app.route("/users/<int:u_id>")
 @login_required
 def dashboard(u_id):
+    if current_user.id != u_id:
+        flash("You do not have permission to see this page", "danger")
+        return redirect(f"/users/{current_user.id}")
     try:
         form = FilterCategoryForm(category=request.args['category'])
     except BadRequestKeyError:

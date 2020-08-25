@@ -296,6 +296,7 @@ def delete_user():
 
 
 @app.route("/users/add_event", methods=["POST"])
+@login_required
 def add_event():
     """add an event to a user's saved events"""
     u = User.query.get_or_404(current_user.id)
@@ -316,6 +317,7 @@ def add_event():
 
 
 @app.route("/users/remove_event", methods=["POST"])
+@login_required
 def remove_event():
     """remove an event from a user's saved events"""
     u = User.query.get_or_404(current_user.id)
@@ -361,6 +363,9 @@ def dashboard(u_id):
 @login_required
 def all_saved(u_id):
     """shows all user-saved events"""
+    if current_user.id != u_id:
+        flash("You do not have permission to see this page", "danger")
+        return redirect(f"/users/{current_user.id}")
     u = User.query.get_or_404(u_id)
     events = get_saved_events(u.id)
 

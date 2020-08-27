@@ -17,7 +17,7 @@ Framework:
 
 Database:
 
-- Postgres
+- PostgreSQL
 
 APIs used:  
 

@@ -5,10 +5,11 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Event
 from secrets import event_key, event_url, google_key
+import math
 import requests
 from werkzeug.exceptions import BadRequestKeyError
 from forms import AdvancedSearchForm, LogInForm, SignUpForm, EditUserForm, NewPasswordForm, FilterCategoryForm
-from methods import get_search_params, get_date_time, image_error, get_saved, sort_events_by_date, get_saved_events
+from methods import get_search_params, get_date_time, image_error, get_saved, sort_events_by_date, get_saved_events, start_indx
 
 app = Flask(__name__)
 
@@ -63,11 +64,11 @@ def keyword_search_results():
 # make request to api
     r = requests.post(f"{event_url}events/search", data=data)
     size = int(r.json()['page_count'])
-    if session['curr_page'] > size:
-        session['curr_page'] = size
-    if session['curr_page'] < 1:
-        session['curr_page'] = 1
-    pages = range(session['curr_page']-5, session['curr_page']+5)
+    if page > size:
+        page = size
+    if page < 1:
+        page = 1
+    pages = range(page-5, page+5)
     try:
         """get events from response"""
         events = r.json()['events']['event']
@@ -120,11 +121,11 @@ def advanced_search_results():
 # make call to api
     r = requests.post(f"{event_url}events/search", data=data)
     size = int(r.json()['page_count'])
-    if session['curr_page'] > size:
-        session['curr_page'] = size
-    if session['curr_page'] < 1:
-        session['curr_page'] = 1
-    pages = range(session['curr_page']-5, session['curr_page']+5)
+    if page > size:
+        page = size
+    if page < 1:
+        page = 1
+    pages = range(page-5, page+5)
     try:
         """get events from response"""
         events = r.json()['events']['event']
@@ -368,5 +369,19 @@ def all_saved(u_id):
         return redirect(f"/users/{current_user.id}")
     u = User.query.get_or_404(u_id)
     events = get_saved_events(u.id)
+    size = math.ceil(len(events)/12)
+    try:
+        """saves current page to session"""
+        session['curr_page'] = int(request.args['page'])
 
-    return render_template("saved.html", u=u, events=events, time=get_date_time, saved=get_saved(current_user.id))
+    except BadRequestKeyError:
+        session['curr_page'] = 1
+    page = session['curr_page']
+    if page > size:
+        page = size
+    if page < 1:
+        page = 1
+    pages = range(session['curr_page']-5, session['curr_page']+5)
+    start=start_indx(page)
+    page_event=events[start:start+12]
+    return render_template("saved.html", u=u, events=page_event, time=get_date_time, saved=get_saved(current_user.id), pages=pages, size=size)

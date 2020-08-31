@@ -1,7 +1,7 @@
 import requests
 from secrets import event_key, event_url
 from datetime import datetime
-from models import User
+from models import User, db, Event
 
 
 def get_categories():
@@ -66,6 +66,14 @@ def get_saved_events(id):
     for e_id in e_ids:
         e = requests.post(f"{event_url}events/get",
                           data={"app_key": event_key, "id": e_id})
+        if not e:
+            evt=Event.query.get(e_id)
+            db.session.delete(evt)
+            db.session.commit()
+        
         events.append(e.json())
     sorted_events = sort_events_by_date(events)
     return sorted_events
+
+def start_indx(p_num):
+    return (p_num-1)*12

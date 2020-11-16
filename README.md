@@ -30,7 +30,7 @@ Via Downloading from GitHub:
 
 Via command line:
 ```
-$ git clone https://github.com/puglisac/orbital-sky.git
+$ git clone https://github.com/puglisac/events_finder_plus.git
 ```
 
 

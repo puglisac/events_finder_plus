@@ -56,8 +56,10 @@ $ createdb events_plus
 Initialize the database
 
 ```
-$ python3 models.py
+$ ipython
+>>> %run app.py
 >>> db.create_all()
+>>> quit()
 ```
 
 Register for an API key from [Eventful](https://api.eventful.com/) and [Google](https://console.developers.google.com/). 

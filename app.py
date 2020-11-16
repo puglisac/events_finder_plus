@@ -382,6 +382,6 @@ def all_saved(u_id):
     if page < 1:
         page = 1
     pages = range(session['curr_page']-5, session['curr_page']+5)
-    start=start_indx(page)
-    page_event=events[start:start+12]
+    start = start_indx(page)
+    page_event = events[start:start+12]
     return render_template("saved.html", u=u, events=page_event, time=get_date_time, saved=get_saved(current_user.id), pages=pages, size=size)

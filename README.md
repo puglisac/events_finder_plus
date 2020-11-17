@@ -80,7 +80,7 @@ Navigate your preferred browser (Chrome suggested) to http://127.0.0.1:5000/
 
 ### Running Tests
 
-Create test Database
+Create test database
 
 ```
 $ createdb events_plus_test

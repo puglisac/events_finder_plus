@@ -78,6 +78,19 @@ Start up the Flask server
 ```
 Navigate your preferred browser (Chrome suggested) to http://127.0.0.1:5000/
 
+### Running Tests
+
+Create test Database
+
+```
+$ createdb events_plus_test
+```
+Run tests with unittest
+
+```
+$ python3 -m unittest
+```
+
 ## Built Using
 Languages:
 
